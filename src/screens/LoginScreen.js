@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { 
+import 
+{ 
   View, 
   Text, 
   TextInput, 
@@ -9,13 +10,16 @@ import {
   Alert 
 } from 'react-native';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => 
+{
   // State hooks to manage email and password input
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   // Function to handle login button press
   const handleLogin = () => {
+    console.log('Email digitado:', email);
+    console.log('Senha digitada:', password);
     // Basic validation
     if (!email || !password) 
     {
@@ -26,9 +30,8 @@ const LoginScreen = ({ navigation }) => {
     // Simulate login process
     if (email === 'user@example.com' && password === 'password123') 
     {
-      Alert.alert('Success', 'Login Successful!');
-      // Navigate to home screen or dashboard
-      // navigation.navigate('Home');
+        Alert.alert('Success', 'Login Successful!');
+        navigation.navigate('Home');
     } 
     
     else 
