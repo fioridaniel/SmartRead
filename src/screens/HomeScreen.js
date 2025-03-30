@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import { 
   View, 
   Text, 
@@ -10,40 +10,21 @@ import {
 } from 'react-native';
 
 import * as SQLite from 'expo-sqlite';
+import FolderList from './FolderList';
+import { useDatabase } from './DatabaseContext';
 
-const HomeScreen = ({ navigation }) => { // Removido async daqui
+const HomeScreen = ({ navigation }) => { 
   const [folderName, setFolderName] = useState('');
-  const [database, setDatabase] = useState(null);
+  const { database } = useDatabase();
+  /*
+    Inicializar o banco de dados no useEffect.
 
-  // Inicializar o banco de dados no useEffect
-  useEffect(() => {
-    const initDatabase = async () => {
-      try {
-        const db = await SQLite.openDatabaseAsync('mydb');
-        await db.execAsync(`
-          CREATE TABLE IF NOT EXISTS folders (
-            id INTEGER PRIMARY KEY AUTOINCREMENT, 
-            nome TEXT NOT NULL
-          )
-        `);
-        setDatabase(db);
-      } 
-      
-      catch (error) {
-        console.error("Erro ao inicializar banco de dados:", error);
-        Alert.alert('Erro', 'Não foi possível inicializar o banco de dados');
-      }
-    };
-
-    initDatabase();
-
-    // Limpeza ao desmontar o componente
-    return () => {
-      if (database) {
-        database.closeAsync();
-      }
-    };
-  }, []);
+    Toda vez que um state muda, a função HomeScreen
+    é executada novamente. Dessa forma, o useEffect 
+    garante que todas as linhas de codigo dentro dele 
+    aconteça somente quando eu quero :)
+  */
+  
 
   const createFolder = async () => {
     if (!folderName) {
@@ -56,6 +37,9 @@ const HomeScreen = ({ navigation }) => { // Removido async daqui
       return;
     }
 
+    /*
+     *  Usar prepareAsync + executeAsync para fazer uma Query. 
+     */
     try {
       const statement = await database.prepareAsync(
         "INSERT INTO folders (nome) VALUES (?)"
@@ -90,12 +74,20 @@ const HomeScreen = ({ navigation }) => { // Removido async daqui
         >
           <Text style={styles.loginButtonText}>Criar Pasta</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.loginButton}
+          onPress={() => navigation.navigate('Folders')}
+        >
+          <Text style={styles.loginButtonText}>Minhas pastas</Text>
+        </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );
 };
 
-// Estilos mantidos conforme seu código original
+// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,

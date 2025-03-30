@@ -12,23 +12,21 @@ import
 
 const LoginScreen = ({ navigation }) => 
 {
-  // State hooks to manage email and password input
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Function to handle login button press
   const handleLogin = () => {
     console.log('Email digitado:', email);
     console.log('Senha digitada:', password);
     
-    // Basic validation
+    // validação
     if (!email || !password) 
     {
       Alert.alert('Error', 'Please enter both email and password');
       return;
     }
 
-    // Simulate login process
+    // simulação de login
     if (email === 'user@example.com' && password === 'password123') 
     {
       Alert.alert('Success', 'Login Successful!');
