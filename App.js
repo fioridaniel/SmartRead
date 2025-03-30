@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen';
 
+
 // Crie outras telas que você precisar, por exemplo:
 // import HomeScreen from './src/screens/HomeScreen';
 

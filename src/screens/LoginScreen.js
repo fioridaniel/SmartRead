@@ -20,6 +20,7 @@ const LoginScreen = ({ navigation }) =>
   const handleLogin = () => {
     console.log('Email digitado:', email);
     console.log('Senha digitada:', password);
+    
     // Basic validation
     if (!email || !password) 
     {
@@ -30,10 +31,10 @@ const LoginScreen = ({ navigation }) =>
     // Simulate login process
     if (email === 'user@example.com' && password === 'password123') 
     {
-        Alert.alert('Success', 'Login Successful!');
-        navigation.navigate('Home');
+      Alert.alert('Success', 'Login Successful!');
+      navigation.navigate('Home');
     } 
-    
+
     else 
     {
       Alert.alert('Error', 'Invalid email or password');
