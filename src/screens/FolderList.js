@@ -12,7 +12,9 @@ import {
 import { useDatabase } from './DatabaseContext';
 
 const FolderList = ({ navigation }) => {
+    const [allFolders, setAllFolders] = useState([]);
     const { database } = useDatabase(); 
+
     /*  Colocar entre chaves faz com que retorne a instancia direto. 
         Dessa forma, nao precisa colocar database.database.algumMetodo() 
     */
@@ -34,19 +36,19 @@ const FolderList = ({ navigation }) => {
              *  Usar prepareAsync + executeAsync para fazer uma Query. 
              */
             try {
-              allFolders = await database.getAllAsync('SELECT * FROM folders');
-              // await folders.finalizeAsync();
-            
-              /* Imprime todas as pastas da table folders */
+              folders = await database.getAllAsync('SELECT * FROM folders');
+              setAllFolders(folders);
+              
+              /* Imprime todas as pastas da table folders no log */
+              console.log("\nloop:\n");
               for (const folder of allFolders) {
                 console.log(folder.id, folder.nome);
               }
-              
             } 
             
             catch (error) {
               console.error("Erro ao pegar o objeto pastas:", error);
-              Alert.alert('Erro', 'Não foi possivel pegar o objeto da table folders' + error.message);
+              Alert.alert('Erro', 'Não foi possivel pegar o objeto da table folders.\n' + error.message);
             }
     }
 
@@ -68,6 +70,17 @@ const FolderList = ({ navigation }) => {
                 >
                 <Text style={styles.loginButtonText}>Lista de pastas</Text>
             </TouchableOpacity>
+
+            <View style={styles.folderContainer}>
+              <Text style={styles.title}>Minhas Pastas</Text>
+
+              {/* Aqui é onde o loop acontece */}
+              {allFolders.map((folder) => (
+                <TouchableOpacity key={folder.id} style={styles.folderButton}>
+                  <Text style={styles.folderText}>{folder.nome}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
     
           </View>
         </SafeAreaView>
@@ -113,6 +126,20 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     loginButtonText: {
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: 16,
+    },
+    folderContainer: {
+      width: '90%',
+    },
+    folderButton: {
+      backgroundColor: '#007bff',
+      padding: 15,
+      borderRadius: 5,
+      marginBottom: 10,
+    },
+    folderText: {
       color: 'white',
       fontWeight: 'bold',
       fontSize: 16,
