@@ -28,6 +28,18 @@ const FolderList = ({ navigation }) => {
             3) cada pasta sera um link, de forma que podera acessar cada uma separadamente
         */
 
+            
+        /* 
+            Em allFolder.map é onde o loop acontece.
+            Em cada pasta terá um link para
+            acessa-la. Quando clicar no link, 
+            o usuário será direcionado para 
+            aquela pasta.
+
+            Parametros que eu quero passar para FileList().
+            onPress={navigation.navigate('Files', {folderId: folder.id, folderName:folder.nome})}> 
+        */
+
         if (!database) {
               Alert.alert('Erro', 'Banco de dados não inicializado');
               return;
@@ -57,14 +69,7 @@ const FolderList = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
           <View style={styles.loginContainer}>
             <Text style={styles.title}>Folders</Text>
-            
-            {
-                /*
-                    Iterar sobre o objeto folders, colocando
-                    todos os objetos pastas aqui dentro. 
-                */
-            }
-
+      
             <TouchableOpacity 
                 style={styles.loginButton}
                 onPress={displayFoldersList}
@@ -74,10 +79,15 @@ const FolderList = ({ navigation }) => {
 
             <View style={styles.folderContainer}>
               <Text style={styles.title}>Minhas Pastas</Text>
-
-              {/* Aqui é onde o loop acontece */}
               {allFolders.map((folder) => (
-                <TouchableOpacity key={folder.id} style={styles.folderButton}>
+                <TouchableOpacity 
+                  key={folder.id} 
+                  style={styles.folderButton}
+                  onPress={() => navigation.navigate('Files', {
+                    folderId: folder.id, 
+                    folderName: folder.nome
+                  })}
+                >
                   <Text style={styles.folderText}>{folder.nome}</Text>
                 </TouchableOpacity>
               ))}

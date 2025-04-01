@@ -9,8 +9,6 @@ import {
   Alert 
 } from 'react-native';
 
-import * as SQLite from 'expo-sqlite';
-import FolderList from './FolderList';
 import { useDatabase } from './DatabaseContext';
 import { styles } from './styles';
 
@@ -70,7 +68,7 @@ const HomeScreen = ({ navigation }) => {
           autoCapitalize="none"
         />
         <TouchableOpacity 
-          style={styles.loginButton}
+          style={[styles.loginButton, { marginBottom: 10 }]}
           onPress={createFolder}
         >
           <Text style={styles.loginButtonText}>Criar Pasta</Text>

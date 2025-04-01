@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import FolderList from './src/screens/FolderList';
+import FileList from './src/screens/FileList';
 import { DatabaseProvider } from './src/screens/DatabaseContext';
 
 const Stack = createStackNavigator();
@@ -32,6 +33,11 @@ const App = () => {
             name="Folders" 
             component={FolderList} 
             options={{ title: 'Folders' }}
+          />
+          <Stack.Screen 
+            name="Files" 
+            component={FileList} 
+            options={{ title: 'Files' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

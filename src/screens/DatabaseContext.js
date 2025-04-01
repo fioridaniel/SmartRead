@@ -13,12 +13,23 @@ const DatabaseContext = createContext({
       const initDatabase = async () => {
         try {
           const db = await SQLite.openDatabaseAsync('mydb');
+
           await db.execAsync(`
             CREATE TABLE IF NOT EXISTS folders (
               id INTEGER PRIMARY KEY AUTOINCREMENT, 
               nome TEXT NOT NULL
             );
+
+            CREATE TABLE IF NOT EXISTS arquivos (
+              id INTEGER PRIMARY KEY AUTOINCREMENT, 
+              nome TEXT NOT NULL,
+              pasta_id INTEGER NOT NULL,
+              conteudo TEXT,
+              FOREIGN KEY (pasta_id) REFERENCES folders (id) ON DELETE CASCADE
+            );
+
           `);
+
           setDatabase(db);
         } 
         
