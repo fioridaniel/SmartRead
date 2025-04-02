@@ -11,14 +11,18 @@ import {
 
 import { useDatabase } from './DatabaseContext';
 import { styles } from './styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const FolderList = ({ navigation }) => {
     const [allFolders, setAllFolders] = useState([]);
     const { database } = useDatabase(); 
 
-    /*  Colocar entre chaves faz com que retorne a instancia direto. 
+    /*  
+        Colocar entre chaves faz com que retorne a instancia direto. 
         Dessa forma, nao precisa colocar database.database.algumMetodo() 
     */
+
+    /*  Adicionar a função de apagar uma pasta  */
 
     const displayFoldersList = async () => {
         /*
@@ -65,6 +69,30 @@ const FolderList = ({ navigation }) => {
             }
     }
 
+    /* Passar o id da pasta selecionada */
+    const deleteFolderById = async (id) => {
+      /* Logica:
+          Fazer uma consulta ao banco, para pegar o objeto 
+        com o determinado ID. Remover o objeto. simples.
+      */
+
+        let statement = await database.prepareAsync(
+          "DELETE FROM folders WHERE folders.id = ?"
+        );
+
+        try {
+          await statement.executeAsync([id]);
+          await statement.finalizeAsync();
+          console.log('Consulta realizada');
+        } 
+        
+        catch (error) {
+          console.error("Erro ao criar pasta:", error);
+          Alert.alert('Erro', 'Não foi possível criar a pasta: ' + error.message);
+        }
+
+    }
+
     return (
         <SafeAreaView style={styles.container}>
           <View style={styles.loginContainer}>
@@ -79,18 +107,57 @@ const FolderList = ({ navigation }) => {
 
             <View style={styles.folderContainer}>
               <Text style={styles.title}>Minhas Pastas</Text>
+              {
+              /*  
+                Ao lado do nome de cada pasta, quero adicionar
+                  um icone de lixeira, para poder apagar aquela
+                  pasta. quero passar o id dessa determinada pasta
+                  para a funcao deleteFolderById. Como fazer isso?
+              */
+              }
+              
               {allFolders.map((folder) => (
-                <TouchableOpacity 
-                  key={folder.id} 
-                  style={styles.folderButton}
-                  onPress={() => navigation.navigate('Files', {
-                    folderId: folder.id, 
-                    folderName: folder.nome
-                  })}
-                >
-                  <Text style={styles.folderText}>{folder.nome}</Text>
-                </TouchableOpacity>
+                <View key={folder.id} style={styles.folderRow}>
+                  <TouchableOpacity 
+                    style={styles.folderButton}
+                    onPress={() => navigation.navigate('Files', {
+                      folderId: folder.id, 
+                      folderName: folder.nome
+                    })}
+                  >
+                    <Text style={styles.folderText}>{folder.nome}</Text>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity 
+                    style={styles.deleteIcon}
+                    onPress={() => {
+                      // Confirmação antes de deletar
+                      Alert.alert(
+                        "Deletar Pasta",
+                        `Tem certeza que deseja deletar a pasta "${folder.nome}"?`,
+                        [
+                          {
+                            text: "Cancelar",
+                            style: "cancel"
+                          },
+                          { 
+                            text: "Deletar", 
+                            onPress: async () => {
+                              await deleteFolderById(folder.id);
+                              // Após deletar, atualizar a lista de pastas
+                              displayFoldersList();
+                            },
+                            style: "destructive"
+                          }
+                        ]
+                      );
+                    }}
+                  >
+                    <Icon name="trash" size={20} color="red" />
+                  </TouchableOpacity>
+                </View>
               ))}
+
             </View>
     
           </View>

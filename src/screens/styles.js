@@ -2,6 +2,24 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  // Adicione ao seu arquivo styles.js
+      folderRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+        marginBottom: 10,
+      },
+      deleteIcon: {
+        padding: 10,
+      },
+      folderButton: {
+        flex: 1,
+        padding: 15,
+        backgroundColor: '#007bff',
+        borderRadius: 8,
+        marginRight: 10,
+      },
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -46,12 +64,12 @@ export const styles = StyleSheet.create({
       folderContainer: {
         width: '90%',
       },
-      folderButton: {
+      /*folderButton: {
         backgroundColor: '#007bff',
         padding: 15,
         borderRadius: 5,
         marginBottom: 10,
-      },
+      },*/
       folderText: {
         color: 'white',
         fontWeight: 'bold',
