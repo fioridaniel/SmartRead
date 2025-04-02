@@ -17,6 +17,11 @@ const FolderList = ({ navigation }) => {
     const [allFolders, setAllFolders] = useState([]);
     const { database } = useDatabase(); 
 
+    /* Este useEffect vai executar a função displayFoldersList quando o componente montar */
+    useEffect(() => {
+      displayFoldersList();
+    }, []); /* Array vazio significa que isso só acontece uma vez quando o componente monta */
+
     /*  
         Colocar entre chaves faz com que retorne a instancia direto. 
         Dessa forma, nao precisa colocar database.database.algumMetodo() 
@@ -96,26 +101,8 @@ const FolderList = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
           <View style={styles.loginContainer}>
-            <Text style={styles.title}>Folders</Text>
-      
-            <TouchableOpacity 
-                style={styles.loginButton}
-                onPress={displayFoldersList}
-                >
-                <Text style={styles.loginButtonText}>Lista de pastas</Text>
-            </TouchableOpacity>
-
             <View style={styles.folderContainer}>
               <Text style={styles.title}>Minhas Pastas</Text>
-              {
-              /*  
-                Ao lado do nome de cada pasta, quero adicionar
-                  um icone de lixeira, para poder apagar aquela
-                  pasta. quero passar o id dessa determinada pasta
-                  para a funcao deleteFolderById. Como fazer isso?
-              */
-              }
-              
               {allFolders.map((folder) => (
                 <View key={folder.id} style={styles.folderRow}>
                   <TouchableOpacity 
