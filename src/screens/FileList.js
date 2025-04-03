@@ -114,6 +114,7 @@ const FileList = ( {navigation} ) => {
   return (
         <SafeAreaView style={styles.container}>
           <View style={styles.loginContainer}>
+            <View style={styles.folderContainer}>
             <Text style={styles.title}>Arquivos na pasta {folderName}</Text>
 
             <TextInput
@@ -177,13 +178,14 @@ const FileList = ( {navigation} ) => {
                     );
                   }}
                 >
+                  
                   <Icon name="trash" size={20} color="red" />
                 </TouchableOpacity>
               </View>
             ))}
 
+            </View>
           </View>
-
         </SafeAreaView>
       );
 }
