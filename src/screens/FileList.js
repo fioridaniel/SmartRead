@@ -110,35 +110,52 @@ const FileList = ( {navigation} ) => {
         Alert.alert('Erro', 'Não foi possivel pegar o objeto da table arquivos.\n' + error.message);
       }
   }
+
+  const deleteFileById = async (id) => {
+    let statement = await database.prepareAsync(
+      "DELETE FROM arquivos WHERE arquivos.id = ?"
+    );
+
+    try {
+      await statement.executeAsync([id]);
+      await statement.finalizeAsync();
+      console.log('Consulta realizada');
+    } 
+    
+    catch (error) {
+      console.error("Erro ao deletar o arquivo:", error);
+      Alert.alert('Erro', 'Não foi possível deletar o arquivo: ' + error.message);
+    }
+  } 
   
   return (
         <SafeAreaView style={styles.container}>
           <View style={styles.loginContainer}>
             <View style={styles.folderContainer}>
-            <Text style={styles.title}>Arquivos na pasta {folderName}</Text>
+              <Text style={styles.title}>Arquivos na pasta {folderName}</Text>
 
-            <TextInput
-              style={styles.input}
-              placeholder="Nome do arquivo"
-              value={fileName}
-              onChangeText={setFileName}
-              autoCapitalize="none"
-            />
+              <TextInput
+                style={styles.input}
+                placeholder="Nome do arquivo"
+                value={fileName}
+                onChangeText={setFileName}
+                autoCapitalize="none"
+              />
 
-            <TextInput
-              style={styles.input}
-              placeholder="Descrição/conteúdo do arquivo"
-              value={fileText}
-              onChangeText={setFileText}
-              autoCapitalize="none"
-            />
+              <TextInput
+                style={styles.input}
+                placeholder="Descrição/conteúdo do arquivo"
+                value={fileText}
+                onChangeText={setFileText}
+                autoCapitalize="none"
+              />
 
-            <TouchableOpacity 
-              style={[styles.loginButton, { marginBottom: 10 }]}
-              onPress={createFile}
-            >
-              <Text style={styles.loginButtonText}>Criar Arquivo</Text>
-            </TouchableOpacity>
+              <TouchableOpacity 
+                style={[styles.loginButton, { marginBottom: 10 }]}
+                onPress={createFile}
+              >
+                <Text style={styles.loginButtonText}>Criar Arquivo</Text>
+              </TouchableOpacity>
 
           </View>
 
@@ -168,7 +185,7 @@ const FileList = ( {navigation} ) => {
                         { 
                           text: "Deletar", 
                           onPress: async () => {
-                            // await deleteFolderById(file.id);
+                            await deleteFileById(file.id);
                             // Após deletar, atualizar a lista de pastas
                             displayFilesList();
                           },
