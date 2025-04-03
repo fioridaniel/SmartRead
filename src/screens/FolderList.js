@@ -58,7 +58,7 @@ const FolderList = ({ navigation }) => {
              *  Usar prepareAsync + executeAsync para fazer uma Query. 
              */
             try {
-              folders = await database.getAllAsync('SELECT * FROM folders');
+              let folders = await database.getAllAsync('SELECT * FROM folders');
               setAllFolders(folders);
               
               /* Imprime todas as pastas da table folders no log */

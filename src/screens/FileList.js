@@ -12,6 +12,7 @@ import {
 import { useDatabase } from './DatabaseContext';
 import { styles } from './styles';
 import { useRoute } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 /* 
   PSEUDO-CODIGO PARA TRATAR ESSA BAGAÇA
@@ -34,14 +35,155 @@ import { useRoute } from '@react-navigation/native';
 const FileList = ( {navigation} ) => {
   const route = useRoute();  
   const { folderName, folderId } = route.params; 
+  const { database } = useDatabase();
+  const [allFiles, setAllFiles] = useState([]);
+  const [fileName, setFileName] = useState('');
+  const [fileText, setFileText] = useState('');
 
-  console.log("\nfolderName = %s, folderId = %s\n", folderName, folderId);
+  /* Este useEffect vai executar a função displayFilesList quando o componente montar */
+  useEffect(() => {
+    displayFilesList();
+  }, []); /* Array vazio significa que isso só acontece uma vez quando o componente monta */
+
+  const createFile = async () => {
+
+    /* Pegar esses dados la embaixo no return */
+    if (!fileName) {
+      Alert.alert('Erro', 'Por favor, insira o nome do arquivo');
+      return;
+    }
+    
+    if (!database) {
+      Alert.alert('Erro', 'Banco de dados não inicializado');
+      return;
+    }
+
+    /*
+      *  Usar prepareAsync + executeAsync para fazer uma Query. 
+      */
+     const statement = await database.prepareAsync(
+       "INSERT INTO arquivos (nome, pasta_id ,conteudo) VALUES (?, ?, ?)"
+     );
+    try {
+      await statement.executeAsync([fileName, folderId, fileText]);
+      await statement.finalizeAsync();
+      
+      Alert.alert('Sucesso', `Arquivo com nome "${fileName}"\n
+        descrição"${fileText}"\n
+        e id de pasta${folderId}" criado com sucesso!`);
+      
+      setFileName('');
+      setFileText('')
+      displayFilesList();
+    } 
+    
+    catch (error) {
+      console.error("Erro ao criar arquivo:", error);
+      Alert.alert('Erro', 'Não foi possível criar o arquivo: ' + error.message);
+    }
+  }
+
+  const displayFilesList = async () => {
+      if (!database) {
+        Alert.alert('Erro', 'Banco de dados não inicializado');
+        return;
+      }
+  
+      /*
+        *  Usar prepareAsync + executeAsync para fazer uma Query. 
+      */
+    
+      try {
+
+        const files = await database.getAllAsync('SELECT * FROM arquivos WHERE pasta_id = ?', [folderId]);
+        setAllFiles(files);
+        
+        /* Imprime todas os arquivos de uma determinada pasta no log */
+        console.log("\nloop arquivos:\n");
+        for (const file of files) {
+          console.log(file.id, file.nome, file.pasta_id, file.conteudo);
+        }
+      } 
+      
+      catch (error) {
+        console.error("Erro ao pegar o objeto arquivos:", error);
+        Alert.alert('Erro', 'Não foi possivel pegar o objeto da table arquivos.\n' + error.message);
+      }
+  }
   
   return (
         <SafeAreaView style={styles.container}>
           <View style={styles.loginContainer}>
-            <Text style={styles.title}>Files on this Folder</Text>
+            <Text style={styles.title}>Arquivos na pasta {folderName}</Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Nome do arquivo"
+              value={fileName}
+              onChangeText={setFileName}
+              autoCapitalize="none"
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Descrição/conteúdo do arquivo"
+              value={fileText}
+              onChangeText={setFileText}
+              autoCapitalize="none"
+            />
+
+            <TouchableOpacity 
+              style={[styles.loginButton, { marginBottom: 10 }]}
+              onPress={createFile}
+            >
+              <Text style={styles.loginButtonText}>Criar Arquivo</Text>
+            </TouchableOpacity>
+
           </View>
+
+          <View style={styles.folderContainer}>
+            <Text style={styles.title}>Meus arquivos</Text>
+            {allFiles.map((file) => (
+              <View key={file.id} style={styles.folderRow}>
+                <TouchableOpacity 
+                  style={styles.folderButton}
+                >
+                  <Text style={styles.folderText}>{file.nome}</Text>
+                  {/* Faltou um bloco de codigo aqui, pegar depois em FolderList */}
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={styles.deleteIcon}
+                  onPress={() => {
+                    // Confirmação antes de deletar
+                    Alert.alert(
+                      "Deletar Arquivo",
+                      `Tem certeza que deseja deletar o arquivo? "${file.nome}"?`,
+                      [
+                        {
+                          text: "Cancelar",
+                          style: "cancel"
+                        },
+                        { 
+                          text: "Deletar", 
+                          onPress: async () => {
+                            // await deleteFolderById(file.id);
+                            // Após deletar, atualizar a lista de pastas
+                            displayFilesList();
+                          },
+                          style: "destructive"
+                        }
+                      ]
+                    );
+                  }}
+                >
+                  <Icon name="trash" size={20} color="red" />
+                </TouchableOpacity>
+              </View>
+            ))}
+
+          </View>
+
         </SafeAreaView>
       );
 }
