@@ -75,4 +75,16 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
       },
+      contentText: {
+        fontSize: 16,
+        color: '#333',
+        padding: 15,
+        backgroundColor: '#f9f9f9',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        marginTop: 10,
+        marginBottom: 20,
+        lineHeight: 22,
+      },
 });

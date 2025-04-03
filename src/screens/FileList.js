@@ -32,7 +32,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
   2) -> Passar o id da pasta, e pegar os arquivos
 */
 
-const FileList = ( {navigation} ) => {
+const FileList = ({ navigation }) => {
   const route = useRoute();  
   const { folderName, folderId } = route.params; 
   const { database } = useDatabase();
@@ -62,7 +62,7 @@ const FileList = ( {navigation} ) => {
       *  Usar prepareAsync + executeAsync para fazer uma Query. 
       */
      const statement = await database.prepareAsync(
-       "INSERT INTO arquivos (nome, pasta_id ,conteudo) VALUES (?, ?, ?)"
+       "INSERT INTO arquivos (nome, pasta_id, conteudo) VALUES (?, ?, ?)"
      );
     try {
       await statement.executeAsync([fileName, folderId, fileText]);
@@ -94,7 +94,6 @@ const FileList = ( {navigation} ) => {
       */
     
       try {
-
         const files = await database.getAllAsync('SELECT * FROM arquivos WHERE pasta_id = ?', [folderId]);
         setAllFiles(files);
         
@@ -127,6 +126,14 @@ const FileList = ( {navigation} ) => {
       Alert.alert('Erro', 'Não foi possível deletar o arquivo: ' + error.message);
     }
   } 
+
+  const navigateToFileDetail = (fileId, fileName, fileContent) => {
+    navigation.navigate('FileDetail', {
+      fileId,
+      fileName,
+      fileContent
+    });
+  }
   
   return (
         <SafeAreaView style={styles.container}>
@@ -165,6 +172,7 @@ const FileList = ( {navigation} ) => {
               <View key={file.id} style={styles.folderRow}>
                 <TouchableOpacity 
                   style={styles.folderButton}
+                  onPress={() => navigateToFileDetail(file.id, file.nome, file.conteudo)}
                 >
                   <Text style={styles.folderText}>{file.nome}</Text>
                   {/* Faltou um bloco de codigo aqui, pegar depois em FolderList */}
