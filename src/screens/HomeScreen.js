@@ -46,7 +46,6 @@ const HomeScreen = ({ navigation }) => {
       await statement.executeAsync([folderName]);
       await statement.finalizeAsync();
       
-      Alert.alert('Sucesso', `Pasta "${folderName}" criada com sucesso!`);
       setFolderName('');
     } 
     

@@ -13,6 +13,8 @@ import { useDatabase } from './DatabaseContext';
 import { styles } from './styles';
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Checkbox from 'expo-checkbox';
+import { TouchableWithoutFeedbackComponent } from 'react-native';
 
 /* 
   PSEUDO-CODIGO PARA TRATAR ESSA BAGAÇA
@@ -38,7 +40,7 @@ const FileList = ({ navigation }) => {
   const { database } = useDatabase();
   const [allFiles, setAllFiles] = useState([]);
   const [fileName, setFileName] = useState('');
-  const [fileText, setFileText] = useState('');
+  const [fileText, setFileText] = useState(''); 
 
   /* Este useEffect vai executar a função displayFilesList quando o componente montar */
   useEffect(() => {
@@ -127,6 +129,27 @@ const FileList = ({ navigation }) => {
     }
   } 
 
+  const setCheckedOnFileById = async (fileId, fileName, isSelected) => {
+    const statement = await database.prepareAsync(
+      "UPDATE arquivos SET (is_selected) = ? WHERE arquivos.id = ?"
+    );
+    try {
+      const newValue = isSelected === 1 ? 0 : 1; /* se for true vira false, se for false vira true */
+
+      await statement.executeAsync([newValue, fileId]);
+      await statement.finalizeAsync();
+      
+      setFileName('');
+      setFileText('')
+      displayFilesList();
+    } 
+   
+    catch (error) {
+      console.error("Erro ao setar checkbox do arquivo:", error);
+      Alert.alert('Erro', 'Não foi possível setar o checkbox do arquivo: ' + error.message);
+    }
+  }
+
   const navigateToFileDetail = (fileId, fileName, fileContent) => {
     navigation.navigate('FileDetail', {
       fileId,
@@ -165,7 +188,6 @@ const FileList = ({ navigation }) => {
               </TouchableOpacity>
 
           </View>
-
           <View style={styles.folderContainer}>
             <Text style={styles.title}>Meus arquivos</Text>
             {allFiles.map((file) => (
@@ -175,8 +197,12 @@ const FileList = ({ navigation }) => {
                   onPress={() => navigateToFileDetail(file.id, file.nome, file.conteudo)}
                 >
                   <Text style={styles.folderText}>{file.nome}</Text>
-                  {/* Faltou um bloco de codigo aqui, pegar depois em FolderList */}
                 </TouchableOpacity>
+
+                <Checkbox
+                  value={file.is_selected === 1 ? true : false} /* acho que isso esta top */
+                  onValueChange={() => setCheckedOnFileById(file.id, file.nome, file.is_selected)}
+                />
                 
                 <TouchableOpacity 
                   style={styles.deleteIcon}

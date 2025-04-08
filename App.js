@@ -9,6 +9,7 @@ import FolderList from './src/screens/FolderList';
 import FileList from './src/screens/FileList';
 import FileDetail from './src/screens/FileDetail';
 import { DatabaseProvider } from './src/screens/DatabaseContext';
+import { Alert } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ const App = () => {
   const processOpenUrl = (event) => {
     // Aqui você processa a URL ou os dados compartilhados
     console.log("Recebido:", event.url);
+    Alert.alert("Recebido:", event.url);
     
     // Para texto, geralmente você pode extrair da URL ou dos parâmetros
     // Exemplo simples (a implementação real depende da estrutura da URL)

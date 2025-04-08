@@ -25,11 +25,10 @@ const DatabaseContext = createContext({
               nome TEXT NOT NULL,
               pasta_id INTEGER NOT NULL,
               conteudo TEXT,
+              is_selected BOOLEAN,
               FOREIGN KEY (pasta_id) REFERENCES folders (id) ON DELETE CASCADE
             );
-
           `);
-
           setDatabase(db);
         } 
         
