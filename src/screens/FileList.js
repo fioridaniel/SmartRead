@@ -15,24 +15,6 @@ import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Checkbox from 'expo-checkbox';
 
-/* 
-  PSEUDO-CODIGO PARA TRATAR ESSA BAGAÇA
-
-  Esse componente é chamado quando la em FolderList, o usuário 
-  clicou em alguma pasta, daí ele é re-direcionado para cá, onde
-  será mostrado todos os arquivos referentes à aquela pasta que 
-  ele clicou. Além disso, Ele terá a opçao de criar um arquivo
-  dentro da respectiva pasta, bem como de excluir um arquivo. 
-
-  Dados que eu preciso:
-  1) nome da pasta
-  2) nome dos arquivos daquela pasta -> uma query simples resolve isso
-
-  Como fazer isso?
-  1) -> Passar o nome da pasta por parametro? é possivel?
-  2) -> Passar o id da pasta, e pegar os arquivos
-*/
-
 const FileList = ({ navigation }) => {
   const route = useRoute();  
   const { folderName, folderId } = route.params; 
@@ -149,27 +131,6 @@ const FileList = ({ navigation }) => {
     }
   }
 
-  const setTargetFile = async (folderId, fileId) => { /* isso aq foi feito por ia */
-    try {
-      // Caminho para o arquivo no armazenamento do dispositivo
-      const filePath = RNFS.DocumentDirectoryPath + '/TargetFile.txt';
-      
-      // Conteúdo a ser escrito no arquivo
-      const fileContent = `//// arquivo txt\nfolder_id: ${folderId}\nfile_id: ${fileId}`;
-      
-      // Escreve o conteúdo no arquivo
-      await RNFS.writeFile(filePath, fileContent, 'utf8');
-      
-      console.log('Arquivo salvo com sucesso:', filePath);
-      return true;
-    } 
-    
-    catch (error) {
-      console.error('Erro ao salvar o arquivo:', error);
-      return false;
-    }
-  };
-
   const navigateToFileDetail = (fileId, fileName, fileContent) => {
     navigation.navigate('FileDetail', {
       fileId,
@@ -208,6 +169,7 @@ const FileList = ({ navigation }) => {
               </TouchableOpacity>
 
           </View>
+          
           <View style={styles.folderContainer}>
             <Text style={styles.title}>Meus arquivos</Text>
             {allFiles.map((file) => (

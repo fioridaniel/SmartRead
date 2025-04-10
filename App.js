@@ -9,6 +9,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import FolderList from './src/screens/FolderList';
 import FileList from './src/screens/FileList';
 import FileDetail from './src/screens/FileDetail';
+import { setSharedText } from './src/screens/SetFilesFromShareInput';
 import { DatabaseProvider } from './src/screens/DatabaseContext';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import { Alert } from 'react-native';
@@ -21,14 +22,15 @@ const App = () => {
   useEffect(() => {
     ReceiveSharingIntent.getReceivedFiles(
       (files) => {
-        Alert.alert("texto recebido 1 = "+files);
-        Alert.alert("texto recebido 2 = " + JSON.stringify(files));
+
         if (files.length > 0 && files[0].text) {
+
           setReceivedText(files[0].text);
-          Alert.alert("texto recebido 3 = " + JSON.stringify(files));
-          Alert.alert("texto recebido 4 = "+files[0].text);
-          Alert.alert("texto recebido 5 = "+files);
-          console.log("texto recebido = "+files[0].text);
+          Alert.alert("texto recebido = "+files[0].text);
+        
+          /* Envia o texto compartilhado para os arquivos selecionados */
+          setSharedText(files[0].text);
+
         }
       },
       (error) => {
