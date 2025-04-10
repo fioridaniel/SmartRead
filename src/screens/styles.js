@@ -87,4 +87,29 @@ export const styles = StyleSheet.create({
         marginBottom: 20,
         lineHeight: 22,
       },
+      header: {
+        padding: 16,
+        backgroundColor: '#4285F4',
+        alignItems: 'center',
+      },
+      headerText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'white',
+      },
+      contentContainer: {
+        flex: 1,
+        padding: 16,
+      },
+      sharedTextContent: {
+        fontSize: 16,
+        lineHeight: 24,
+        color: '#333',
+      },
+      placeholderText: {
+        fontSize: 16,
+        color: '#999',
+        textAlign: 'center',
+        marginTop: 40,
+      },
 });

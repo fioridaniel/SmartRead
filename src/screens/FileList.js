@@ -14,7 +14,6 @@ import { styles } from './styles';
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Checkbox from 'expo-checkbox';
-import { TouchableWithoutFeedbackComponent } from 'react-native';
 
 /* 
   PSEUDO-CODIGO PARA TRATAR ESSA BAGAÇA
@@ -149,6 +148,27 @@ const FileList = ({ navigation }) => {
       Alert.alert('Erro', 'Não foi possível setar o checkbox do arquivo: ' + error.message);
     }
   }
+
+  const setTargetFile = async (folderId, fileId) => { /* isso aq foi feito por ia */
+    try {
+      // Caminho para o arquivo no armazenamento do dispositivo
+      const filePath = RNFS.DocumentDirectoryPath + '/TargetFile.txt';
+      
+      // Conteúdo a ser escrito no arquivo
+      const fileContent = `//// arquivo txt\nfolder_id: ${folderId}\nfile_id: ${fileId}`;
+      
+      // Escreve o conteúdo no arquivo
+      await RNFS.writeFile(filePath, fileContent, 'utf8');
+      
+      console.log('Arquivo salvo com sucesso:', filePath);
+      return true;
+    } 
+    
+    catch (error) {
+      console.error('Erro ao salvar o arquivo:', error);
+      return false;
+    }
+  };
 
   const navigateToFileDetail = (fileId, fileName, fileContent) => {
     navigation.navigate('FileDetail', {
