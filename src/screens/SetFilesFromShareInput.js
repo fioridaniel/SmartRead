@@ -1,21 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
 import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
-  SafeAreaView, 
   Alert 
 } from 'react-native';
 
-import { useDatabase } from './DatabaseContext';
-import { styles } from './styles';
-import { useRoute } from '@react-navigation/native';
 
-const { database } = useDatabase(); 
-
-export const setSharedText = async (sharedText) => {
+export const setSharedText = async (database, sharedText) => {
     if(!sharedText) {
         Alert.alert('Erro', 'texto compartilhado vazio');
         return;
@@ -26,15 +14,9 @@ export const setSharedText = async (sharedText) => {
         2) atualizar os arquivos com o texto passado pelo share. 
     */
 
-    const selectedFiles = await database.getAllAsync('SELECT id FROM arquivos WHERE arquivos.is_selected = 1');
-
-    const statement = await database.prepareAsync(
-        "UPDATE arquivos SET conteudo = ? WHERE arquivos.id = ?"
-    );
-
     /* é possivel fazer isso em uma query só */
-
     try {
+        const selectedFiles = await database.getAllAsync('SELECT id FROM arquivos WHERE arquivos.is_selected = 1');
         for (const file of selectedFiles) {
             const statement = await database.prepareAsync(
                 "UPDATE arquivos SET conteudo = ? WHERE id = ?"
