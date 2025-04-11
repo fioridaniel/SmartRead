@@ -27,7 +27,6 @@
 
             setReceivedText(files[0].text);
             Alert.alert("texto recebido = "+files[0].text);
-            setSharedText(database, files[0].text);
 
           }
         },
@@ -39,11 +38,17 @@
       return () => {
         ReceiveSharingIntent.clearReceivedFiles();
       };
-    }, [database]); 
+    }, []); /* TIRAR ESSA MERDA */
     /* 
       O useEffect aqui é chamado quando o banco esta pronto (mais seguro). 
       Não é chamado quando eu altero alguma coisa dentro do banco 
     */
+
+      useEffect(() => {
+        if (receivedText && database) {
+          setSharedText(database, receivedText);
+        }
+      }, [receivedText, database]); // Processa quando ambos estiverem prontos
 
     return (
       <NavigationContainer>
