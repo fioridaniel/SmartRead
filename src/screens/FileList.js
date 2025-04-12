@@ -51,9 +51,9 @@ const FileList = ({ navigation }) => {
       await statement.executeAsync([fileName, folderId, fileText]);
       await statement.finalizeAsync();
       
-      Alert.alert('Sucesso', `Arquivo com nome "${fileName}"\n
-        descrição"${fileText}"\n
-        e id de pasta${folderId}" criado com sucesso!`);
+      //Alert.alert('Sucesso', `Arquivo com nome "${fileName}"\n
+      //  descrição"${fileText}"\n
+       // e id de pasta${folderId}" criado com sucesso!`);
       
       setFileName('');
       setFileText('')

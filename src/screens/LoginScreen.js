@@ -31,7 +31,6 @@ const LoginScreen = ({ navigation }) =>
     // simulação de login
     if (email === 'user@example.com' && password === 'password123') 
     {
-      Alert.alert('Success', 'Login Successful!');
       navigation.navigate('Home');
     } 
 

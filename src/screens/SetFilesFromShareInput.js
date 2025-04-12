@@ -25,7 +25,7 @@ export const setSharedText = async (database, sharedText) => {
             await statement.finalizeAsync();
         }
         
-        Alert.alert('Sucesso', `descrição"${sharedText}"`);
+        //Alert.alert('Sucesso', `descrição"${sharedText}"`);
     } 
     
     catch (error) {

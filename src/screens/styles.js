@@ -112,4 +112,24 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 40,
       },
+      contentTextInput: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        padding: 10,
+        minHeight: 100,
+        textAlignVertical: 'top',
+        marginVertical: 10,
+      },
+      saveButton: {
+        backgroundColor: '#2196F3',
+        padding: 12,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 10,
+      },
+      saveButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+      }
 });
