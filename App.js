@@ -12,23 +12,73 @@
 
   import { useDatabase } from './src/screens/DatabaseContext';
   import { setSharedText } from './src/screens/SetFilesFromShareInput';
+  import MlkitOcr from 'react-native-mlkit-ocr';
 
   const Stack = createStackNavigator();
+
+  const extractTextFromImage = async (uri) => {
+    try {
+      const resultFromFile = await MlkitOcr.detectFromUri(uri);
+      Alert.alert("resultado " +resultFromFile);
+      /* juntando tudo em uma string só com o join */
+      const allTexts = resultFromFile.map(block => block.text).join('\n');
+  
+      return allTexts;
+    } 
+    
+    catch (error) {
+      console.error('Erro ao extrair texto da imagem:', error);
+      return ''; 
+    }
+  };
 
   const InternApp = () => {
     const { database } = useDatabase();
     const [receivedText, setReceivedText] = useState('');
 
+    console.log("tamo programando tamo programando 1");
+
     useEffect(() => {
       ReceiveSharingIntent.getReceivedFiles(
-        (files) => {
+        async (files) => {
 
-          if (files.length > 0 && files[0].text) {
+          /*  
+            Nesse codigo, por enquanto so pode enviar um arquivo
+            por vez. 
+          */
 
-            setReceivedText(files[0].text);
-            Alert.alert("texto recebido = "+files[0].text);
+          const item = files[0];
+          console.log("tamo programando tamo programando 2");
+
+          if (files.length > 0 && item.text) {
+
+            setReceivedText(item.text);
+            Alert.alert("texto recebido = "+item.text);
 
           }
+
+          else if (item.filePath) {
+
+            // (documentação da biblioteca) files returns as JSON Array example
+            //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+
+            console.log("caminho da imagem recebida = "+item.contentUri);
+            Alert.alert("caminho da imagem recebida = "+item.contentUri);
+            
+            const textoExtraido = await extractTextFromImage(item.contentUri);
+
+            if (textoExtraido) {
+              console.log("texto da imagem recebida = "+textoExtraido)
+              Alert.alert("texto da imagem recebida = "+textoExtraido);
+              setReceivedText(textoExtraido);
+            }
+
+            else {
+              Alert.alert("nao foi possivel extrair o texto da imagem (sou gay)");
+            }
+            
+          }
+
         },
         (error) => {
           console.log(error);
@@ -38,17 +88,17 @@
       return () => {
         ReceiveSharingIntent.clearReceivedFiles();
       };
-    }, []); /* TIRAR ESSA MERDA */
+    }, []); 
     /* 
       O useEffect aqui é chamado quando o banco esta pronto (mais seguro). 
       Não é chamado quando eu altero alguma coisa dentro do banco 
     */
 
-      useEffect(() => {
-        if (receivedText && database) {
-          setSharedText(database, receivedText);
-        }
-      }, [receivedText, database]); // Processa quando ambos estiverem prontos
+    useEffect(() => {
+      if (receivedText && database) {
+        setSharedText(database, receivedText);
+      }
+    }, [receivedText, database]); // Processa quando ambos estiverem prontos
 
     return (
       <NavigationContainer>
