@@ -9,6 +9,13 @@ import {
   Alert 
 } from 'react-native';
 
+/* 
+  Muito para melhorar aqui. refazer isso depois.
+  Preciso recarregar o conteudo do arquivo toda vez
+  fazer alguma alteração. chamar a função loadFileContent
+  toda vez que isso acontecer
+*/
+
 import { useDatabase } from './DatabaseContext';
 import { styles } from './styles';
 import { useRoute, useNavigation } from '@react-navigation/native';
