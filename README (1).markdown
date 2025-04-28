@@ -1,7 +1,7 @@
 # <span style="color: blue;">Projeto: App de Extração e Organização de Texto</span>
 
 ## <span style="color: green;">Descrição</span>
-Este é um aplicativo móvel desenvolvido para simplificar a captura, extração e organização de informações visuais. Com ele, você pode compartilhar prints de tela ou imagens de outros aplicativos, extrair texto automaticamente usando tecnologia OCR (Reconhecimento Óptico de Caracteres) e organizar tudo em um sistema interno de pastas e arquivos. É uma ferramenta pensada para quem precisa transformar conteúdo visual em texto editável e mantê-lo bem organizado, como estudantes, profissionais ou qualquer pessoa que lida com informações digitais.
+Este é um aplicativo móvel desenvolvido para simplificar a captura, extração e organização de informações visuais. Com ele, você pode compartilhar prints de tela ou imagens de outros aplicativos, extrair texto automaticamente usando tecnologia OCR (Reconhecimento Óptico de Caracteres) e organizar tudo com só um clique em um sistema interno de pastas e arquivos. É uma ferramenta pensada para quem quer salvar informações importantes sem precisar mudar de aba e organizá-las de forma eficiente.
 
 ## <span style="color: green;">Para Que Serve</span>
 O app serve para capturar informações de imagens de forma rápida e prática, eliminando a necessidade de digitar manualmente textos que aparecem em fotos ou capturas de tela. Ele organiza esse conteúdo em um sistema de arquivos dentro do próprio aplicativo, permitindo que você acesse, edite e gerencie tudo em um só lugar.
