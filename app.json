@@ -1,0 +1,88 @@
+{
+  "expo": {
+    "name": "OrganizadorInteligente",
+    "slug": "OrganizadorInteligente",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.OrganizadorInteligente",
+      "intentFilters": [
+        {
+          "action": "android.intent.action.SEND",
+          "category": [
+            "android.intent.category.DEFAULT"
+          ],
+          "dataType": "text/*"
+        },
+        {
+          "action": "android.intent.action.SEND",
+          "category": [
+            "android.intent.category.DEFAULT"
+          ],
+          "dataType": "image/*"
+        },
+        {
+          "action": "android.intent.action.SEND_MULTIPLE",
+          "category": [
+            "android.intent.category.DEFAULT"
+          ],
+          "dataType": "image/*"
+        },
+        {
+          "action": "android.intent.action.SEND",
+          "category": [
+            "android.intent.category.DEFAULT"
+          ],
+          "dataType": "text/*"
+        },
+        {
+          "action": "android.intent.action.SEND",
+          "category": [
+            "android.intent.category.DEFAULT"
+          ],
+          "dataType": "image/*"
+        },
+        {
+          "action": "android.intent.action.SEND_MULTIPLE",
+          "category": [
+            "android.intent.category.DEFAULT"
+          ],
+          "dataType": "image/*"
+        }
+      ],
+      "runtimeVersion": "1.0.0"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sqlite"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2672e2f5-cc35-4b89-ad57-9b64a322f077"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/2672e2f5-cc35-4b89-ad57-9b64a322f077"
+    }
+  }
+}
