@@ -15,16 +15,7 @@ import { styles } from './styles';
 const HomeScreen = ({ navigation }) => { 
   const [folderName, setFolderName] = useState('');
   const { database } = useDatabase();
-  /*
-    Inicializar o banco de dados no useEffect.
-
-    Toda vez que um state muda, a função HomeScreen
-    é executada novamente. Dessa forma, o useEffect 
-    garante que todas as linhas de codigo dentro dele 
-    aconteça somente quando eu quero :)
-  */
   
-
   const createFolder = async () => {
     if (!folderName) {
       Alert.alert('Erro', 'Por favor, insira o nome da pasta');
